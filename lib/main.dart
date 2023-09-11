@@ -18,14 +18,12 @@ class MyApp extends StatelessWidget {
 
 createHome() {
   return Scaffold(
-      appBar: AppBar(
-        title: const Text("Marvel MOBILE"),
-        backgroundColor: const Color.fromARGB(255, 125, 0, 0),
-      ),
-      body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-        createBanner(),
-        HomeHeroes(),
-      ]));
+    appBar: AppBar(
+      title: const Text("Marvel MOBILE"),
+      backgroundColor: const Color.fromARGB(255, 125, 0, 0),
+    ),
+    body: const HomeHeroes(),
+  );
 }
 
 createBanner() {

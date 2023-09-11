@@ -1,7 +1,7 @@
 class Heroe {
-  late String data;
-
+  late List data;
+  late String name;
   Heroe.fromJson(Map<String, dynamic> json) {
-    data = json["status"];
+    data = json["data"]["results"];
   }
 }
