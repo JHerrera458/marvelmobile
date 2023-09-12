@@ -22,6 +22,16 @@ class DetailHeroe extends StatelessWidget {
     Map<String, dynamic> thumbnail = heroe["thumbnail"];
     String photoUrl = thumbnail["path"];
     String photoExtension = thumbnail["extension"];
+
+    Map<String, dynamic> comics = heroe["comics"];
+    int comicsQuant = comics["available"];
+    Map<String, dynamic> series = heroe["series"];
+    int seriesQuant = series["available"];
+    Map<String, dynamic> stories = heroe["stories"];
+    int storiesQuant = stories["available"];
+    Map<String, dynamic> events = heroe["events"];
+    int eventsQuant = events["available"];
+
     return Column(
       children: [
         Container(
@@ -39,6 +49,7 @@ class DetailHeroe extends StatelessWidget {
                   style: const TextStyle(fontSize: 15),
                 )),
         ),
+        createIconBar(comicsQuant, seriesQuant, storiesQuant, eventsQuant)
       ],
     );
   }
@@ -54,5 +65,58 @@ createImage(url, extension) {
         image: NetworkImage(urlPhoto),
       ),
     ),
+  );
+}
+
+createIconBar(comics, series, stories, events) {
+  const color = Color.fromARGB(255, 125, 0, 0);
+  return Container(
+    margin: const EdgeInsets.all(10),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        createIcon(
+            "Comics",
+            comics,
+            const Icon(
+              Icons.book,
+              color: color,
+            )),
+        createIcon(
+            "Series",
+            series,
+            const Icon(
+              Icons.movie,
+              color: color,
+            )),
+        createIcon(
+            "Stories",
+            stories,
+            const Icon(
+              Icons.history,
+              color: color,
+            )),
+        createIcon(
+            "Events",
+            events,
+            const Icon(
+              Icons.event,
+              color: color,
+            )),
+      ],
+    ),
+  );
+}
+
+createIcon(text, int quantity, Icon icon) {
+  String quant = quantity.toString();
+  return Column(
+    children: [
+      icon,
+      const Text("Cantidad de"),
+      Text(text),
+      Text(quant,
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+    ],
   );
 }
