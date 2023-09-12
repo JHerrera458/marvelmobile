@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marvelmobile/views/detail_heroe.dart';
 import 'package:marvelmobile/views/home_heroes.dart';
 
 void main() {
@@ -12,6 +13,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: createHome(),
+      routes: {
+        "HeroDetails": (context) => const DetailHeroe(),
+      },
     );
   }
 }

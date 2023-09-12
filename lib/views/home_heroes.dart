@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:marvelmobile/controllers/heroe.controller.dart";
+import "package:marvelmobile/views/detail_heroe.dart";
 
 class HomeHeroes extends StatefulWidget {
   const HomeHeroes({super.key});
@@ -39,21 +40,40 @@ class _HomeHeroes extends State<HomeHeroes> {
   createList(data) {
     return ListView.separated(
         itemBuilder: ((context, index) {
-          return createCard(data[index]);
+          return createCard(data[index], context);
         }),
         separatorBuilder: (context, index) => const Divider(),
         itemCount: data.length);
   }
 
-  createCard(data) {
-    String name = data["name"];
-    // String description = data["description"];
-    Map<String, dynamic> thumbnail = data["thumbnail"];
+  createCard(heroe, context) {
+    String name = heroe["name"];
+    // String description = heroe["description"];
+    Map<String, dynamic> thumbnail = heroe["thumbnail"];
     String photoUrl = thumbnail["path"];
     String photoExtension = thumbnail["extension"];
     return Column(
-      children: [createText(name), createImage(photoUrl, photoExtension)],
+      children: [
+        createText(name),
+        createImage(photoUrl, photoExtension),
+        createIconButton(context, heroe)
+      ],
     );
+  }
+
+  createIconButton(context, heroe) {
+    return IconButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailHeroe(
+                heroe: heroe,
+              ),
+            ),
+          );
+        },
+        icon: const Icon(Icons.info));
   }
 
   createText(text) {
