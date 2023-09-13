@@ -4,7 +4,6 @@ import "package:marvelmobile/views/detail_heroe.dart";
 
 class HomeHeroes extends StatefulWidget {
   const HomeHeroes({super.key});
-
   @override
   State<StatefulWidget> createState() {
     return _HomeHeroes();
@@ -12,6 +11,10 @@ class HomeHeroes extends StatefulWidget {
 }
 
 class _HomeHeroes extends State<HomeHeroes> {
+  void reloadApp() {
+    setState(() {});
+  }
+
   final HeroesController _heroesController = HeroesController();
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,13 @@ class _HomeHeroes extends State<HomeHeroes> {
                 dynamic data = snapshot.data!.data;
                 return createList(data);
               } else {
-                return Text(snapshot.error.toString());
+                return Column(
+                  children: [
+                    Text(snapshot.error.toString()),
+                    IconButton(
+                        onPressed: reloadApp, icon: const Icon(Icons.update))
+                  ],
+                );
               }
             }
           default:
@@ -62,18 +71,26 @@ class _HomeHeroes extends State<HomeHeroes> {
   }
 
   createIconButton(context, heroe) {
-    return IconButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetailHeroe(
-                heroe: heroe,
+    return Column(
+      children: [
+        IconButton(
+          iconSize: 40,
+          color: const Color.fromARGB(255, 125, 0, 0),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailHeroe(
+                  heroe: heroe,
+                ),
               ),
-            ),
-          );
-        },
-        icon: const Icon(Icons.info));
+            );
+          },
+          icon: const Icon(Icons.info),
+        ),
+        (const Text("Ver información del heroe")),
+      ],
+    );
   }
 
   createText(text) {

@@ -26,10 +26,15 @@ createHome() {
       title: const Text("Marvel MOBILE"),
       backgroundColor: const Color.fromARGB(255, 125, 0, 0),
     ),
-    body: const HomeHeroes(),
+    body: Column(
+      children: [
+        createBanner(),
+        const Expanded(child: HomeHeroes()),
+      ],
+    ),
   );
 }
 
 createBanner() {
-  return const Image(image: AssetImage("assets/images/banner.jpg"));
+  return const Image(image: AssetImage("assets/images/banner.png"));
 }
