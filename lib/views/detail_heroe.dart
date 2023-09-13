@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DetailHeroe extends StatelessWidget {
-  final Map<String, dynamic>? heroe;
+  Map<String, dynamic>? heroe;
 
-  const DetailHeroe({super.key, this.heroe});
+  DetailHeroe({super.key, this.heroe});
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +25,23 @@ class DetailHeroe extends StatelessWidget {
 
     Map<String, dynamic> comics = heroe["comics"];
     int comicsQuant = comics["available"];
+
     Map<String, dynamic> series = heroe["series"];
     int seriesQuant = series["available"];
+    List seriesList = series["items"];
+    if (seriesQuant >= 3) {
+      seriesList = seriesList.sublist(0, 3);
+    } else {
+      seriesList = [
+        {"name": "No hay series para mostrar"},
+        {"name": "No hay series para mostrar"},
+        {"name": "No hay series para mostrar"},
+      ];
+    }
+
     Map<String, dynamic> stories = heroe["stories"];
     int storiesQuant = stories["available"];
+
     Map<String, dynamic> events = heroe["events"];
     int eventsQuant = events["available"];
 
@@ -49,7 +62,8 @@ class DetailHeroe extends StatelessWidget {
                   style: const TextStyle(fontSize: 15),
                 )),
         ),
-        createIconBar(comicsQuant, seriesQuant, storiesQuant, eventsQuant)
+        createIconBar(comicsQuant, seriesQuant, storiesQuant, eventsQuant),
+        createExpansion(seriesList),
       ],
     );
   }
@@ -73,7 +87,7 @@ createIconBar(comics, series, stories, events) {
   return Container(
     margin: const EdgeInsets.all(10),
     child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         createIcon(
             "Comics",
@@ -113,9 +127,29 @@ createIcon(text, int quantity, Icon icon) {
   return Column(
     children: [
       icon,
-      const Text("Cantidad de"),
       Text(text),
       Text(quant,
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+    ],
+  );
+}
+
+createExpansion(seriesList) {
+  String firstSerie = seriesList[0]["name"];
+  String secondSerie = seriesList[1]["name"];
+  String thirdSerie = seriesList[2]["name"];
+  const color = Color.fromARGB(255, 125, 0, 0);
+  return ExpansionTile(
+    iconColor: color,
+    textColor: color,
+    title: const Text("Tres primeras series del heroe",
+        textAlign: TextAlign.center),
+    children: [
+      Text(firstSerie,
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+      Text(secondSerie,
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+      Text(thirdSerie,
           style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
     ],
   );

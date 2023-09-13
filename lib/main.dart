@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: createHome(),
       routes: {
-        "HeroDetails": (context) => const DetailHeroe(),
+        "HeroDetails": (context) => DetailHeroe(),
       },
     );
   }
