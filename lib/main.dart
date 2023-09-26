@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marvelmobile/views/detail_heroe.dart';
-import 'package:marvelmobile/views/home_heroes.dart';
+import 'package:marvelmobile/views/list_heroes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: createHome(),
       routes: {
         "HeroDetails": (context) => DetailHeroe(),

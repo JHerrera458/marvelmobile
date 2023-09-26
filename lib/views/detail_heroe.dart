@@ -36,10 +36,8 @@ class DetailHeroe extends StatelessWidget {
       seriesList.add({"name": "No hay serie para mostrar"});
     } else if (seriesQuant == 1) {
       seriesList = seriesList.sublist(0, 1);
-      seriesList.add([
-        {"name": "No hay serie para mostrar"},
-        {"name": "No hay serie para mostrar"}
-      ]);
+      seriesList.add({"name": "No hay serie para mostrar"});
+      seriesList.add({"name": "No hay serie para mostrar"});
     } else {
       seriesList = [
         {"name": "No hay series para mostrar"},

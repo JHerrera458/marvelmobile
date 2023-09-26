@@ -11,38 +11,41 @@ class HomeHeroes extends StatefulWidget {
 }
 
 class _HomeHeroes extends State<HomeHeroes> {
-  void reloadApp() {
+  Future reloadApp() async {
     setState(() {});
   }
 
   final HeroesController _heroesController = HeroesController();
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _heroesController.getHeroes(),
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-            return const Text("CARGANDO...");
-          case ConnectionState.done:
-            {
-              if (snapshot.hasData) {
-                dynamic data = snapshot.data!.data;
-                return createList(data);
-              } else {
-                return Column(
-                  children: [
-                    Text(snapshot.error.toString()),
-                    IconButton(
-                        onPressed: reloadApp, icon: const Icon(Icons.update))
-                  ],
-                );
+    return RefreshIndicator.adaptive(
+      onRefresh: reloadApp,
+      child: FutureBuilder(
+        future: _heroesController.getHeroes(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const Text("CARGANDO...");
+            case ConnectionState.done:
+              {
+                if (snapshot.hasData) {
+                  dynamic data = snapshot.data!.data;
+                  return createList(data);
+                } else {
+                  return Column(
+                    children: [
+                      Text(snapshot.error.toString()),
+                      IconButton(
+                          onPressed: reloadApp, icon: const Icon(Icons.update))
+                    ],
+                  );
+                }
               }
-            }
-          default:
-            return const Text("Ha ocurrido un error");
-        }
-      },
+            default:
+              return const Text("Ha ocurrido un error");
+          }
+        },
+      ),
     );
   }
 
@@ -64,7 +67,7 @@ class _HomeHeroes extends State<HomeHeroes> {
     return Column(
       children: [
         createText(name),
-        createImage(photoUrl, photoExtension),
+        createImage(photoUrl, photoExtension, heroe),
         createIconButton(context, heroe)
       ],
     );
@@ -77,6 +80,7 @@ class _HomeHeroes extends State<HomeHeroes> {
           iconSize: 40,
           color: const Color.fromARGB(255, 125, 0, 0),
           onPressed: () {
+            print(heroe);
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -100,14 +104,26 @@ class _HomeHeroes extends State<HomeHeroes> {
     );
   }
 
-  createImage(url, extension) {
+  createImage(url, extension, heroe) {
     String urlPhoto = ("$url.$extension");
-    return Container(
-      width: double.infinity,
-      height: 285,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage(urlPhoto),
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailHeroe(
+              heroe: heroe,
+            ),
+          ),
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        height: 285,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(urlPhoto),
+          ),
         ),
       ),
     );
